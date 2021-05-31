@@ -60,18 +60,22 @@
       }
     },
     methods: {
-      login(values) {
+      async login(values) {
         this.login_alert = true;
         this.login_submit = true;
         this.login_alert_variant = 'bg-blue-500';
         this.login_alert_msg = 'Please wait, you\'re being logged in...';
 
-        setTimeout(() => {
-          this.login_alert_variant = 'bg-green-500';
-          this.login_alert_msg = 'Success! You have been logged in.';
-        }, 3000);
+        try {
+          await this.$store.dispatch('login', values);
+        } catch (error) {
+          this.login_alert = 'bg-red-500';
+          this.login_alert_msg = 'Invalid credentials.';
+          return;
+        }
 
-        console.log(values);
+        this.login_alert_variant = 'bg-green-500';
+        this.login_alert_msg = 'Success! You have been logged in.';
       },
     },
   }

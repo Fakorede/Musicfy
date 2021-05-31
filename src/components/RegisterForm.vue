@@ -166,18 +166,25 @@
       }
     },
     methods: {
-      register(values) {
+      async register(values) {
         this.reg_alert = true;
         this.reg_submit = true;
         this.reg_alert_variant = 'bg-blue-500';
         this.reg_alert_msg = 'Please wait! Your account is being created...';
 
-        setTimeout(() => {
-          this.reg_alert_variant = 'bg-green-500';
-          this.reg_alert_msg = 'Success! Your account has been created.';
-        }, 3000);
+        try {
+          await this.$store.dispatch('register', values);
+        } catch (err) {
+          this.reg_submit = false;
+          this.reg_alert_variant = 'bg-red-500';
+          this.reg_alert_msg = 'An unexpected error occured! Please try again later.';
+          return;
+        }
 
-        console.log(values);
+        this.reg_alert_variant = 'bg-green-500';
+        this.reg_alert_msg = 'Success! Your account has been created.';
+
+        window.location.reload();
       },
     },
   }

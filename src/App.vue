@@ -268,5 +268,8 @@
   export default {
     name: 'App',
     components: { AppHeader, AuthModal },
+    created() {
+      this.$store.dispatch('initLogin');
+    },
   }
 </script>

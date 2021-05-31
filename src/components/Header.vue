@@ -9,7 +9,7 @@
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
-          <li>
+          <li v-if="!userLoggedIn">
             <a 
               class="px-2 
               text-white" 
@@ -17,9 +17,14 @@
               @click.prevent="toggleAuthModal"
             >Login / Register</a>
           </li>
-          <li>
-            <a class="px-2 text-white" href="#">Manage</a>
-          </li>
+          <template v-else>
+            <li>
+              <a class="px-2 text-white" href="#">Manage</a>
+            </li>
+            <li>
+              <a class="px-2 text-white" href="#" @click.prevent="signOut">Logout</a>
+            </li>
+          </template>
         </ul>
       </div>
     </nav>
@@ -27,12 +32,16 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+  import { mapActions, mapMutations, mapState } from 'vuex';
 
   export default {
     name: 'Header',
+    computed: {
+      ...mapState(['userLoggedIn']),
+    },
     methods: {
       ...mapMutations(['toggleAuthModal']),
+      ...mapActions(['signOut']),
     },
   }
 </script>
