@@ -69,8 +69,9 @@
         try {
           await this.$store.dispatch('login', values);
         } catch (error) {
-          this.login_alert = 'bg-red-500';
+          this.login_alert_variant = 'bg-red-500';
           this.login_alert_msg = 'Invalid credentials.';
+          this.login_submit = false;
           return;
         }
 
