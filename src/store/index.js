@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { auth, userCollections } from '@/plugins/firebase';
+import { auth, usersCollection } from '@/plugins/firebase';
 
 export default createStore({
   state: {
@@ -20,7 +20,7 @@ export default createStore({
         payload.email, payload.password,
       );
 
-      await userCollections.doc(credentials.user.uid).set({
+      await usersCollection.doc(credentials.user.uid).set({
         name: payload.name,
         email: payload.email,
         age: payload.age,

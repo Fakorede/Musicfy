@@ -22,6 +22,7 @@ export default {
     defineRule('passwords_mismatch', confirmed);
     defineRule('excluded', excluded);
     defineRule('country_excluded', excluded);
+    defineRule('song_required', required);
 
     configure({
       generateMessage: (ctx) => {
@@ -37,6 +38,7 @@ export default {
           country_excluded: 'Due to restrictions, we currently do not accept users from this location.',
           passwords_mismatch: 'The passwords do not match.',
           tos: 'You must accept the terms of service.',
+          song_required: 'The song title field is required.',
         }
 
         const message = messages[ctx.rule.name] 
