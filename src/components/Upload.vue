@@ -74,7 +74,21 @@
           : [...$event.target.files];
         
         files.forEach((file) => {
+          // mimetype
           if (file.type !== 'audio/mpeg') {
+            return;
+          }
+
+          // ensure user is online
+          if (!navigator.onLine) {
+            this.uploads.push({
+              task: {},
+              current_progress: 100,
+              name: file.name,
+              variant: 'bg-red-400',
+              icon: 'fas fa-times',
+              text_class: 'text-red-400',
+            });
             return;
           }
 
