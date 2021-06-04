@@ -1,0 +1,13 @@
+{
+  "home": {
+    "listen": "Listen to Great Music!",
+    "songs": "Songs"
+  },
+  "register": {
+    "TOS": "Terms of Service",
+    "accept": "I accept Musicfy's {0}"
+  },
+  "song": {
+    "comment_count": "No comments | 1 Comment | {count} Comments"
+  }
+}

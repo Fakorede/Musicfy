@@ -6,7 +6,9 @@
       style="background-image: url(assets/img/header.png)"></div>
     <div class="container mx-auto">
       <div class="text-white main-header-content">
-        <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
+        <h1 class="font-bold text-5xl mb-5">
+          {{ $t('home.listen') }}
+        </h1>
         <p class="w-full md:w-8/12 mx-auto">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Phasellus et dolor mollis, congue augue non, venenatis elit.
@@ -28,7 +30,9 @@
         class="px-6 pt-6 pb-5 font-bold border-b border-gray-200" 
         v-icon-secondary="{ icon: 'headphones-alt', right: true}"
       > <!-- v-icon.right.yellow="'headphones-alt'"  -->
-        <span class="card-title">Songs</span>
+        <span class="card-title">
+          {{ $t('home.songs') }}
+        </span>
       </div>
       <!-- Playlist -->
       <ol id="playlist">
@@ -124,3 +128,20 @@ export default {
   },
 };
 </script>
+
+<i18n>
+{
+  "en": {
+    "home": {
+      "listen": "Listen to Great Music!",
+      "songs": "Songs",
+    },
+  },
+  "de": {
+    "home": {
+      "listen": "Hören Sie großartige Musik!",
+      "songs": "Lieder",
+    },
+  }
+}
+</i18n>

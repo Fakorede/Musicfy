@@ -33,6 +33,11 @@
             </li>
           </template>
         </ul>
+        <ul class="flex flex-row mt-1 ml-auto">
+          <a href="#" class="px-2 text-white" @click.prevent="changeLocale">
+            {{ currentLocale }}
+          </a>
+        </ul>
       </div>
     </nav>
   </header>
@@ -45,9 +50,15 @@
     name: 'Header',
     computed: {
       ...mapState(['userLoggedIn']),
+      currentLocale() {
+        return this.$i18n.locale === 'de' ? 'German' : 'English';
+      },
     },
     methods: {
       ...mapMutations(['toggleAuthModal']),
+      changeLocale() {
+        this.$i18n.locale = this.$i18n.locale === 'de' ? 'en' : 'de';
+      },
       signOut() {
         this.$store.dispatch('signOut');
 

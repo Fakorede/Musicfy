@@ -1,0 +1,13 @@
+{
+  "home": {
+    "listen": "Hören Sie großartige Musik!",
+    "songs": "Lieder"
+  },
+  "register": {
+    "TOS": "Nutzungsbedingungen",
+    "accept": "Ich nehme an Musicfy's {0}"
+  },
+  "song": {
+    "comment_count": "Keine Kommentare | 1 Kommentar | {count} Kommentare"
+  }
+}
