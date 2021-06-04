@@ -19,7 +19,7 @@
           <!-- Song Info -->
           <div class="text-3xl font-bold">{{ song.modified_name }}</div>
           <div>{{ song.genre }}</div>
-          <div class="song-price">{{ $n(1, 'currency', 'en') }}</div>
+          <!-- <div class="song-price">{{ $n(1, 'currency', 'en') }}</div> -->
         </div>
       </div>
     </section>
@@ -29,7 +29,8 @@
         <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
           <!-- Comment Count -->
           <span class="card-title">
-            {{ $tc('song.comment_count', song.comments_count, { count: song.comments_count }) }}
+            {{ song.comments_count }} comment(s)
+            <!-- {{ $tc('song.comment_count', song.comments_count, { count: song.comments_count }) }} -->
           </span>
           <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
         </div>
@@ -64,14 +65,16 @@
             </button>
           </vee-form>
           <!-- Sort Comments -->
-          <select
-            class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
-            duration-500 focus:outline-none focus:border-black rounded"
-            v-model="sort"
-          >
-            <option value="1">Latest</option>
-            <option value="2">Oldest</option>
-          </select>
+          <template v-if="song.comments_count">
+            <select
+              class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
+              duration-500 focus:outline-none focus:border-black rounded"
+              v-model="sort"
+            >
+              <option value="1">Latest</option>
+              <option value="2">Oldest</option>
+            </select>
+          </template>
         </div>
       </div>
     </section>
@@ -116,12 +119,24 @@
         alert_message: 'Please wait! Your comment is being submitted.',
       }
     }, 
-    async created() {
-      await this.getSong();
-      await this.getComments();
+    async beforeRouteEnter(to, from, next) {
+      const songSnapshot = await songsCollection.doc(to.params.id).get();
 
-      const { sort } = this.$route.query;
-      this.sort = sort === '1' || sort === '2' ? sort : '1'
+      next((vm) => {
+        if (!songSnapshot.exists) {
+          vm.$router.push({ name: 'home' })
+          return;
+        }
+
+        const { sort } = vm.$route.query;
+
+        // eslint-disable-next-line no-param-reassign
+        vm.sort = sort === '1' || sort === '2' ? sort : '1'
+        // eslint-disable-next-line no-param-reassign
+        vm.song = songSnapshot.data();
+
+        vm.getComments();
+      });
     },
     watch: {
       sort(newValue) {
@@ -137,7 +152,9 @@
       },
     },
     computed: {
-      ...mapState(['userLoggedIn']),
+      ...mapState({
+        userLoggedIn: (state) => state.auth.userLoggedIn,
+      }),
       sortedComments() {
         return this.comments.slice().sort((a, b) => {
           if (this.sort === '1') {
@@ -150,16 +167,6 @@
     },
     methods: {
       ...mapActions(['newSong']),
-      async getSong() {
-        const songSnapshot = await songsCollection.doc(this.$route.params.id).get();
-
-        if (!songSnapshot.exists) {
-          this.$router.push({ name: 'home' })
-          return;
-        }
-
-        this.song = songSnapshot.data();
-      },
       async getComments() {
         const snapshots = await commentsCollection
           .where('sid', '==', this.$route.params.id)

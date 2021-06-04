@@ -15,6 +15,6 @@ module.exports = {
     themeColor: '#ff5e3a',
     manifestOptions: {
       short_name: 'Musicfy',
-    }
+    },
   },
 }
